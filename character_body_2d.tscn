@@ -1,17 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://cypv0fupwpj4y"]
+[gd_scene load_steps=5 format=3 uid="uid://cypv0fupwpj4y"]
 
 [ext_resource type="Script" path="res://UltimatePlatformerController_prepatch.gd" id="1_7t3y2"]
 [ext_resource type="Texture2D" uid="uid://bksfadp1bnw0l" path="res://icon.svg" id="2_bjkq3"]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_jxt8u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_bjkq3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8venx"]
-size = Vector2(20, 76)
+size = Vector2(24, 76)
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("PlayerSprite", "PlayerCollider")]
 script = ExtResource("1_7t3y2")
+PlayerSprite = NodePath("Sprite")
+PlayerCollider = NodePath("Collider")
 
-[node name="Icon" type="Sprite2D" parent="."]
-scale = Vector2(0.164062, 0.609375)
-texture = ExtResource("2_bjkq3")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.204063, 0.609375)
+sprite_frames = SubResource("SpriteFrames_jxt8u")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_8venx")

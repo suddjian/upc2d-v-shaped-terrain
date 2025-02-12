@@ -1,9 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3brpcwcyoo17"]
+[gd_scene load_steps=5 format=3 uid="uid://c3brpcwcyoo17"]
 
 [ext_resource type="Script" path="res://test_scene.gd" id="1_spx3l"]
-[ext_resource type="PackedScene" uid="uid://cypv0fupwpj4y" path="res://character_body_2d.tscn" id="2_utgyj"]
+[ext_resource type="Script" path="res://visible_collision_polygon.gd" id="2_j27df"]
 
-[node name="TestScene" type="Node2D"]
+[sub_resource type="Gradient" id="Gradient_hxuyn"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.229167, 0.453704, 0.810185)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.909, 0.58, 0.733333, 1, 0.883, 0.46, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dukjc"]
+gradient = SubResource("Gradient_hxuyn")
+fill = 1
+fill_from = Vector2(0.491453, 0.476496)
+fill_to = Vector2(0.980769, 0.482906)
+
+[node name="TestScene" type="Node"]
 script = ExtResource("1_spx3l")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -11,11 +22,39 @@ position = Vector2(591, 476)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 position = Vector2(30, 5)
-polygon = PackedVector2Array(-139, -93, -113, -42, -85, -93, -27, -93, 13, -2, 27, -12, 8, -101, 121, -101, 121, 112, -131, 112, -182, 19, -183, -93)
+polygon = PackedVector2Array(-139, -93, -113, -42, -85, -93, -27, -93, 13, -2, 27, -12, 8, -101, 94, -101, 191, -131, 225, -197, 251, 21, 48, 110, -131, 112, -363, 34, -295, -93, -260.635, -93, -238, -78, -212, -93)
+script = ExtResource("2_j27df")
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("2_utgyj")]
-position = Vector2(456, 350)
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(75, -31)
+polygon = PackedVector2Array(22, -148, 40, -152, 28, -206, 38, -208, 73, -163, 82, -169, 56, -249, -5, -249, -36, -211, -27, -149, -13, -146, 2, -193)
+script = ExtResource("2_j27df")
 
-[node name="UseOldButton" type="Button" parent="."]
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="SpawnPoint" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(454, 354)
+scale = Vector2(0.707537, 0.707537)
+texture = SubResource("GradientTexture2D_dukjc")
+
+[node name="UseUnpatchedController" type="Button" parent="."]
+custom_minimum_size = Vector2(180, 40)
+offset_left = 33.0
+offset_top = 33.0
+offset_right = 183.0
+offset_bottom = 73.0
+focus_mode = 0
+text = "Spawn Un-patched"
+metadata/_edit_use_anchors_ = true
+
+[node name="UsePatchedController" type="Button" parent="."]
+custom_minimum_size = Vector2(180, 40)
+offset_left = 33.0
+offset_top = 97.0
+offset_right = 183.0
+offset_bottom = 137.0
+focus_mode = 0
+text = "Spawn Patched"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="UseUnpatchedController" to="." method="_on_use_unpatched_controller_pressed"]
+[connection signal="pressed" from="UsePatchedController" to="." method="_on_use_patched_controller_pressed"]
